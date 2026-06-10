@@ -21,9 +21,8 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application source code
-COPY src/pipeline.py         src/
-COPY src/profiling_script.py src/
+# Copy the application source code and package modules
+COPY src/ src/
 
 # Declare mount-point volumes so Docker Desktop shows them
 VOLUME ["/app/data", "/app/output", "/app/profiling"]

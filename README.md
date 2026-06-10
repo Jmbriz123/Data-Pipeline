@@ -22,19 +22,24 @@
 ## Project Overview
 
 The Referral Program Pipeline ingests seven CSV source tables, applies
-cleaning and timezone-normalisation, joins them into a single denormalised
-report, then flags each referral as **valid** or **potentially fraudulent**
-using a set of defined business rules.
+bronze-to-silver cleaning, produces curated silver tables, and generates a
+final gold report with fraud-detection validation.
+
+This refactor follows a medallion architecture:
+- **Bronze**: raw `data/` CSV source files
+- **Silver**: cleaned and typed intermediate tables stored under `data/silver/`
+- **Gold**: final `output/referral_report.csv` for business consumption
 
 **Key deliverables**
 
 | File | Description |
 |---|---|
-| `pipeline.py` | Main ETL + fraud-detection script |
-| `profiling_script.py` | Data profiling script |
-| `Dockerfile` | Container definition |
-| `output/referral_report.csv` | Final fraud-detection report (46 rows) |
-| `profiling/data_profiling_report.xlsx` | Profiling report (all tables) |
+| `src/pipeline.py` | Main ETL entrypoint |
+| `src/profiling_script.py` | Data profiling entrypoint |
+| `src/data_pipeline/` | Modular package with ETL, cleaning, profiling, and validation |
+| `output/referral_report.csv` | Final fraud-detection report |
+| `profiling/data_profiling_report_bronze.xlsx` | Bronze profiling report |
+| `profiling/data_profiling_report_silver.xlsx` | Silver profiling report |
 | `docs/data_dictionary.md` | Business-user data dictionary |
 
 ---
@@ -59,9 +64,20 @@ springer-referral-pipeline/
 ├── output/                        # Generated report (git-ignored)
 │   └── referral_report.csv
 │
+├── data/silver/                  # Cleaned intermediate silver tables
+│   ├── lead_logs.csv
+│   ├── paid_transactions.csv
+│   ├── referral_rewards.csv
+│   ├── user_logs.csv
+│   ├── user_referral_logs.csv
+│   ├── user_referral_statuses.csv
+│   └── user_referrals.csv
+│
 ├── profiling/                     # Generated profiling artefacts (git-ignored)
-│   ├── data_profiling_report.csv
-│   └── data_profiling_report.xlsx
+│   ├── data_profiling_report_bronze.csv
+│   ├── data_profiling_report_bronze.xlsx
+│   ├── data_profiling_report_silver.csv
+│   └── data_profiling_report_silver.xlsx
 │
 ├── docs/
 │   └── data_dictionary.md         # Non-technical data dictionary
@@ -108,8 +124,10 @@ python src/pipeline.py
 
 Output files will be written to:
 - `output/referral_report.csv`
-- `profiling/data_profiling_report.csv`
-- `profiling/data_profiling_report.xlsx`
+- `profiling/data_profiling_report_bronze.csv`
+- `profiling/data_profiling_report_bronze.xlsx`
+- `profiling/data_profiling_report_silver.csv`
+- `profiling/data_profiling_report_silver.xlsx`
 
 ---
 

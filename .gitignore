@@ -26,6 +26,7 @@ Thumbs.db
 output/
 profiling/*.csv
 profiling/*.xlsx
+data/silver/
 
 # Secrets / credentials
 .env
