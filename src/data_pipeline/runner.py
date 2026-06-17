@@ -1,13 +1,13 @@
 import logging
 from pathlib import Path
 
-from .cleaning import clean_all_tables
 from .config import default_config, PipelineConfig
-from .io import load_raw_tables, save_csv, save_tables
-from .profiling import profile_tables
-from .report import finalise_report
-from .transforms import adjust_referral_times, assign_source_category, build_master_report
-from .validation import apply_business_logic
+from .bronze.io import load_raw_tables, save_csv, save_tables
+from .bronze.profiling import profile_tables
+from .silver.cleaning import clean_all_tables
+from .silver.transforms import adjust_referral_times, assign_source_category, build_master_report
+from .gold.report import finalise_report
+from .gold.validation import apply_business_logic
 
 logger = logging.getLogger(__name__)
 

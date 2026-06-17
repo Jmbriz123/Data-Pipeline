@@ -1,6 +1,6 @@
 import pandas as pd
 
-from .cleaning import initcap
+from ..silver.cleaning import initcap
 
 OUTPUT_COLUMNS = [
     "referral_details_id",

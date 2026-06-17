@@ -44,5 +44,7 @@ def main() -> None:
     run_profiling(config=config)
 
 
+
 if __name__ == "__main__":
     main()
+

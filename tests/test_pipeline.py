@@ -1,8 +1,8 @@
 import pandas as pd
 
-from data_pipeline.cleaning import clean_lead_logs
-from data_pipeline.transforms import assign_source_category
-from data_pipeline.validation import apply_business_logic
+from data_pipeline.silver.cleaning import clean_lead_logs
+from data_pipeline.silver.transforms import assign_source_category
+from data_pipeline.gold.validation import apply_business_logic
 
 
 def test_assign_source_category_for_lead_source():
