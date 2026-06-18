@@ -25,12 +25,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/ src/
 
 # Declare mount-point volumes so Docker Desktop shows them
-VOLUME ["/app/data", "/app/output", "/app/profiling"]
+VOLUME ["/app/data", "/app/output", "/app/profiling", "/app/silver"]
 
 # Environment variables (overridable at runtime)
 ENV DATA_DIR=/app/data
 ENV OUTPUT_DIR=/app/output
 ENV PROFILING_DIR=/app/profiling
+ENV SILVER_DIR=/app/silver
+
+# Ensure a writable silver directory exists inside the image (can be mounted at runtime)
+RUN mkdir -p /app/silver
 
 # Default command: run profiling then pipeline
 CMD ["sh", "-c", "python src/profiling_script.py && python src/pipeline.py"]
